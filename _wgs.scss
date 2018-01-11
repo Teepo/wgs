@@ -95,12 +95,28 @@ $_wgsNamespace: false;
 
     // From: this breakpoint (inclusive)
     @if $from {
-        $min-width: nth(map-get($_wgsBreakpoints, $from),1)
+
+        $minValue: nth(map-get($breakpoints, $from), 1);
+
+        @if ($minValue == null) {
+            $min-width: $from;
+        }
+        @else {
+            $min-width: $minValue - 1px;
+        }
     }
 
     // Until: that breakpoint (exclusive)
     @if $until {
-        $max-width: nth(map-get($_wgsBreakpoints, $until),1) - 1px;
+
+        $maxValue: nth(map-get($breakpoints, $until), 1);
+
+        @if ($maxValue == null) {
+            $max-width: $until;
+        }
+        @else {
+            $max-width: $maxValue - 1px;
+        }
     }
 
     @if $min-width != 0 { $media-query: '#{$media-query} and (min-width: #{$min-width})'; }
